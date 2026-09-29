@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<!-- Lion Financial System © 2026 Luis Figueroa. Todos los derechos reservados. Prohibida su copia o redistribución sin autorización del autor. -->
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Luis Figueroa">
+    <meta name="copyright" content="© 2026 Luis Figueroa. Todos los derechos reservados.">
+    <title>Lion Financial System | Luis Figueroa</title>
+    <style>
+        :root {
+            --bg: #0b0d1a;
+            --card: #141833;
+            --line: #262c55;
+            --tx: #eef0ff;
+            --mut: #8b92c4;
+            --or: #ff7a00;
+            --gr: #2ecc8f;
+            --rd: #ff4d6d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        body {
+            font-family: system-ui, Segoe UI, sans-serif;
+            background: radial-gradient(circle at 20% 0, #1d1f52, var(--bg) 60%);
+            color: var(--tx);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 18px;
+        }
+
+        @media(max-width: 820px) {
+            .wrap { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        h2 {
+            font-size: .8rem;
+            color: var(--mut);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .top {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .top .verse {
+            flex: 1 1 100%;
+            text-align: center;
+            border: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dcard {
+            position: relative;
+            overflow: hidden;
+            flex: 1 1 340px;
+            max-width: 460px;
+            aspect-ratio: 1.586;
+            border-radius: 20px;
+            padding: 16px 20px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #0b2a8f 0%, #1a57e0 48%, #0a1f6e 100%);
+            box-shadow: 0 14px 40px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.35) inset;
+        }
+
+        .dcard::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(115deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 38%), linear-gradient(120deg, rgba(3,12,58,.0), rgba(3,12,58,.55));
+        }
+
+        .dcard > div {
+            position: relative;
+            z-index: 1;
+        }
+
+        .r1, .rr2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-weight: 800;
+            letter-spacing: 3px;
+            font-size: 1.1rem;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .brand small {
+            display: block;
+            font-size: .55rem;
+            letter-spacing: 1.5px;
+            color: #cfe0ff;
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        .chip {
+            width: 46px;
+            height: 34px;
+            border-radius: 7px;
+            background: linear-gradient(90deg, transparent 48%, rgba(0,0,0,.3) 49% 51%, transparent 52%), linear-gradient(0deg, transparent 48%, rgba(0,0,0,.3) 49% 51%, transparent 52%), linear-gradient(135deg, #f6de96, #b58524);
+            box-shadow: 0 1px 3px rgba(0,0,0,.4);
+        }
+
+        .rr2 {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .bl { text-align: left; }
+        .bl small { font-size: .62rem; color: #cfe0ff; font-weight: 600; }
+
+        .dcard .n {
+            font-size: clamp(1.6rem, 7vw, 2.3rem);
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 2px 6px rgba(0,10,60,.7);
+            transition: color .3s;
+        }
+
+        .dcard .n.up { color: #7dffc0; }
+        .dcard .n.down { color: #ff9aa8; }
+
+        .rcoin {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 76%;
+            aspect-ratio: 1;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .rcoin .ring {
+            transform-origin: 100px 100px;
+            animation: spinr 14s linear infinite;
+        }
+
+        @keyframes spinr {
+            to { transform: rotate(360deg); }
+        }
+
+        @media(prefers-reduced-motion: reduce) {
+            .rcoin .ring { animation: none; }
+        }
+
+        .num {
+            font: 600 clamp(.95rem, 4.4vw, 1.25rem) ui-monospace, Consolas, monospace;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 2px 3px rgba(0,0,0,.6);
+        }
+
+        .r4 {
+            display: flex;
+            justify-content: space-between;
+            color: #fff;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-top: 6px;
+            text-shadow: 0 1px 2px rgba(0,0,0,.6);
+        }
+
+        .usdc { opacity: .9; }
+
+        .arr {
+            flex: 1 1 260px;
+            max-width: 340px;
+            min-height: 190px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+        }
+
+        .arr.down { background: linear-gradient(160deg, #160306, #5e1019 70%, #8a2a3a); }
+        .arr.up { background: linear-gradient(160deg, #04121a, #0a3b4a 60%, #0e6a52); }
+        .arr svg { width: 100%; height: 100%; display: block; animation: pop .5s; }
+
+        @keyframes pop {
+            from { opacity: 0; transform: scale(.92); }
+        }
+
+        .qr {
+            width: 64px;
+            height: 64px;
+            background: repeating-conic-gradient(#fff 0 25%, #111 0 50%) 0 0/12px 12px;
+            border-radius: 6px;
+        }
+
+        .verse {
+            font-style: italic;
+            font-size: .85rem;
+            color: var(--mut);
+            border-left: 3px solid var(--or);
+            padding-left: 10px;
+            margin-top: 12px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 210px;
+            display: block;
+        }
+
+        .assets {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .a {
+            background: #1b2046;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .a b { display: block; }
+        .a small { color: var(--mut); }
+        .a .r { text-align: right; }
+        .g { color: var(--gr); }
+        .r2 { color: var(--rd); }
+
+        .note {
+            font-size: .72rem;
+            color: var(--mut);
+            margin-top: 10px;
+        }
+
+        .head { text-align: center; }
+        .globe { width: 130px; height: 130px; margin: 0 auto 6px; }
+        .head h1 { font-size: 1.5rem; letter-spacing: .5px; }
+        .head p { color: var(--mut); font-size: .85rem; margin-top: 4px; }
+
+        .bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            height: 110px;
+        }
+
+        .bars div {
+            flex: 1;
+            text-align: center;
+            font-size: .7rem;
+            color: var(--mut);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 100%;
+        }
+
+        .bars i {
+            display: block;
+            background: #2b3170;
+            border-radius: 6px 6px 0 0;
+            min-height: 4px;
+            transition: height .4s;
+        }
+
+        .bars .hoy i { background: var(--or); }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-height: 300px;
+            overflow: auto;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--line);
+            font-size: .85rem;
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        li small { color: var(--mut); display: block; }
+        li b { font-size: .9rem; }
+        li .row { display: flex; justify-content: space-between; width: 100%; gap: 10px; }
+        li .row > div:last-child { text-align: right; }
+
+        .empty {
+            color: var(--mut);
+            font-size: .85rem;
+            text-align: center;
+            padding: 12px;
+        }
+
+        label { font-size: .85rem; color: var(--mut); }
+
+        input {
+            width: 100%;
+            margin: 6px 0 10px;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: #0e1129;
+            color: var(--tx);
+            font-size: 1.1rem;
+        }
+
+        input:focus { outline: 2px solid var(--or); }
+
+        .eq {
+            display: flex;
+            justify-content: space-between;
+            font-size: .9rem;
+            padding: 3px 0;
+        }
+
+        .btns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        button {
+            border: 0;
+            border-radius: 12px;
+            padding: 13px;
+            font-size: .95rem;
+            font-weight: 700;
+            cursor: pointer;
+            color: #fff;
+            transition: transform .1s, filter .2s;
+        }
+
+        button:hover { filter: brightness(1.15); }
+        button:active { transform: scale(.96); }
+
+        .dep { background: var(--gr); color: #06281b; }
+        .ret { background: var(--or); }
+        .rst { grid-column: 1 / -1; background: transparent; border: 1px solid var(--line); color: var(--mut); }
+
+        .msg {
+            min-height: 22px;
+            font-size: .85rem;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .spin { transform-origin: 65px 65px; }
+        .m {
+            transform-origin: 65px 65px;
+            animation: rot 6s linear infinite;
+        }
+
+        @keyframes rot {
+            0% { transform: scaleX(1); }
+            50% { transform: scaleX(-1); }
+            100% { transform: scaleX(1); }
+        }
+
+        .coin {
+            animation: bob 3s ease-in-out infinite;
+            transform-origin: 65px 65px;
+        }
+
+        @keyframes bob {
+            50% { transform: translateY(-4px); }
+        }
+
+        @media(prefers-reduced-motion: reduce) {
+            .m, .coin { animation: none; }
+        }
+
+        .ic {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font: 800 .95rem system-ui;
+            font-style: normal;
+            color: #fff;
+            flex: none;
+            margin-right: 10px;
+        }
+
+        .a > span:first-child { display: flex; align-items: center; }
+
+        .badge {
+            display: inline-block;
+            background: #b7e0d3;
+            color: #0d5a43;
+            font-size: .72rem;
+            font-weight: 700;
+            border-radius: 999px;
+            padding: 3px 10px;
+            margin-bottom: 6px;
+        }
+
+        .foot {
+            max-width: 1100px;
+            margin: 22px auto 0;
+            text-align: center;
+            font-size: .78rem;
+            color: var(--mut);
+            line-height: 1.6;
+        }
+
+        .foot b { color: var(--tx); }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="top">
+            <div class="dcard">
+                <svg class="rcoin" viewBox="0 0 200 200" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="gd" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0" stop-color="#fff3a6"/>
+                            <stop offset=".5" stop-color="#f5b70a"/>
+                            <stop offset="1" stop-color="#a86f00"/>
+                        </linearGradient>
+                        <radialGradient id="cb" cx="40%" cy="35%">
+                            <stop offset="0" stop-color="#2f8cff"/>
+                            <stop offset="1" stop-color="#0a2f8f"/>
+                        </radialGradient>
+                    </defs>
+                    <g class="ring" fill="none" stroke-linecap="round">
+                        <circle cx="100" cy="100" r="95" stroke="#bfe0ff" stroke-opacity=".35" stroke-width="2"/>
+                        <path d="M100 5A95 95 0 0 1 190 130" stroke="#fff" stroke-width="4"/>
+                        <path d="M10 120A95 95 0 0 0 60 187" stroke="#8fc4ff" stroke-width="4"/>
+                    </g>
+                    <circle cx="100" cy="100" r="82" fill="#071c5c" stroke="#fff" stroke-width="2.5"/>
+                    <g id="ckt" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round" opacity=".9">
+                        <circle cx="100" cy="100" r="74" stroke-opacity=".5"/>
+                    </g>
+                    <circle cx="100" cy="100" r="46" fill="url(#cb)" stroke="#fff" stroke-width="3"/>
+                    <text x="100" y="124" text-anchor="middle" font-size="72" font-weight="900" font-family="Georgia,serif" fill="url(#gd)" stroke="#7a5200" stroke-width="1.2" paint-order="stroke">$</text>
+                </svg>
+                <div class="r1">
+                    <div class="brand">LION<small>Financial System</small></div>
+                    <div style="display:flex;align-items:center;gap:10px">
+                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#5b5f6b" stroke-width="2.4" stroke-linecap="round">
+                            <path d="M9 8c3 4 3 10 0 14M14 5c5 6 5 14 0 20M19 2c7 8 7 18 0 26"/>
+                        </svg>
+                        <svg width="30" height="20" viewBox="0 0 30 20" style="border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.35)" role="img" aria-label="Bandera de Venezuela">
+                            <rect width="30" height="6.7" fill="#FFCC00"/>
+                            <rect y="6.7" width="30" height="6.7" fill="#00247D"/>
+                            <rect y="13.4" width="30" height="6.6" fill="#CF142B"/>
+                            <g fill="#fff">
+                                <circle cx="7.5" cy="10.6" r=".8"/><circle cx="10" cy="9.3" r=".8"/>
+                                <circle cx="12.6" cy="8.6" r=".8"/><circle cx="15" cy="8.4" r=".8"/>
+                                <circle cx="17.4" cy="8.6" r=".8"/><circle cx="20" cy="9.3" r=".8"/>
+                                <circle cx="22.5" cy="10.6" r=".8"/><circle cx="15" cy="11.6" r=".0"/>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <div class="rr2">
+                    <div class="chip"></div>
+                    <div class="bl">
+                        <small>Balance disponible (USDC)</small>
+                        <div class="n" id="bal">$0.00</div>
+                    </div>
+                </div>
+                <div class="r3">
+                    <div class="num">5294 &nbsp;&bull;&bull;&bull;&bull; &nbsp;&bull;&bull;&bull;&bull; &nbsp;994X</div>
+                    <div class="r4"><span>ID LION-0994-XK</span><span>09/30</span><span class="usdc">USDC</span></div>
+                </div>
+            </div>
+            <div class="arr down" id="arr" aria-hidden="true"></div>
+            <p class="verse">“Mi Dios, pues, suplirá todo lo que os falte conforme a sus riquezas en gloria.” – Filipenses 4:19</p>
+        </div>
+
+        <div>
+            <div class="card" style="margin-top:18px">
+                <h2>Mercado (simulado)</h2>
+                <canvas id="ch"></canvas>
+            </div>
+            <div class="card" style="margin-top:18px">
+                <h2>Monitoreo de activos referenciales</h2>
+                <div class="assets">
+                    <div class="a"><span><i class="ic" style="background:#2775ca">$</i><span><b>USDC</b><small>USD Coin</small></span></span><span class="r"><b>$1.00</b><small class="g">+7.49% APR</small></span></div>
+                    <div class="a"><span><i class="ic" style="background:#1b1b1b">U</i><span><b>U</b><small>Konti Real</small></span></span><span class="r"><b>Bs 14,735.40</b><small class="g">+6.77% APR</small></span></div>
+                    <div class="a"><span><i class="ic" style="background:#f7931a">₿</i><span><b>BTC</b><small>Bitcoin</small></span></span><span class="r"><b>$83,545.11</b><small class="r2">-1.28%</small></span></div>
+                    <div class="a"><span><i class="ic" style="background:#f0b90b">◆</i><span><b>BNB</b><small>BNB Chain</small></span></span><span class="r"><b>$765.30</b><small class="r2">-1.59%</small></span></div>
+                </div>
+                <p class="note">Las cotizaciones son referenciales y se muestran solo con fines de simulación.</p>
+            </div>
+        </div>
+
+        <div>
+            <div class="card head" style="margin-bottom:18px">
+                <svg class="globe" viewBox="0 0 130 130" aria-label="Mundo girando">
+                    <defs><radialGradient id="gl" cx="35%" cy="30%"><stop offset="0" stop-color="#3a3f92"/><stop offset="1" stop-color="#12163a"/></radialGradient></defs>
+                    <circle cx="65" cy="65" r="58" fill="url(#gl)" stroke="#ff7a00" stroke-width="2"/>
+                    <g fill="none" stroke="#8b92ff" stroke-opacity=".6" stroke-width="1.2">
+                        <ellipse class="m" cx="65" cy="65" rx="58" ry="58"/>
+                        <ellipse class="m" style="animation-delay:-1.5s" cx="65" cy="65" rx="58" ry="58"/>
+                        <ellipse class="m" style="animation-delay:-3s" cx="65" cy="65" rx="58" ry="58"/>
+                        <ellipse class="m" style="animation-delay:-4.5s" cx="65" cy="65" rx="58" ry="58"/>
+                        <line x1="7" y1="65" x2="123" y2="65"/><path d="M14 40Q65 52 116 40M14 90Q65 78 116 90"/>
+                    </g>
+                    <g class="coin">
+                        <circle cx="65" cy="65" r="17" fill="#ff7a00"/>
+                        <circle cx="65" cy="65" r="13" fill="#fff"/>
+                        <text x="65" y="72" text-anchor="middle" font-size="20" font-weight="800" fill="#111">$</text>
+                    </g>
+                </svg>
+                <h1>LION FINANCIAL SYSTEM</h1>
+                <p>Desarrollado por Luis Figueroa | Pro Coder</p>
+            </div>
+            <div class="card">
+                <h2>Volumen analítico de operaciones</h2>
+                <div class="bars" id="bars"></div>
+            </div>
+            <div class="card" style="margin-top:18px">
+                <h2>Actividad reciente</h2>
+                <ul id="tx"></ul>
+            </div>
+            <div class="card" style="margin-top:18px">
+                <h2>Régimen de operaciones comerciales</h2>
+                <label for="amt">Monto en USD ($)</label>
+                <input id="amt" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00">
+                <div class="eq"><span>Equivalencia en VES</span><b id="ves">Bs 0.00</b></div>
+                <div class="eq"><span>Equivalencia en EUR</span><b id="eur">0.00 €</b></div>
+                <div class="btns">
+                    <button class="dep" id="bd">Ejecutar depósito</button>
+                    <button class="ret" id="br">Ejecutar retiro</button>
+                    <button class="rst" id="bx">Restablecer panel</button>
+                </div>
+                <div class="msg" id="msg" role="status"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Apoyo Voluntario (Integrada con Binance) -->
+    <div style="max-width:1100px; margin:18px auto 0;">
+        <div class="card" style="text-align:center;">
+            <h2>Apoya este proyecto educativo</h2>
+            <p style="color:var(--mut); font-size:0.85rem; margin-bottom:10px;">
+                Si este simulador te ha sido útil o te gusta la herramienta, puedes invitarme un aporte voluntario a través de Binance. ¡Muchas gracias por tu apoyo!
+            </p>
+            <div style="background:#0e1129; border:1px solid var(--line); padding:10px 16px; border-radius:10px; display:inline-block; font-size:0.9rem;">
+                <b>Binance Pay ID:</b> <span style="font-family:monospace; color:var(--gr);">1210204738</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="foot">
+        <p>© 2026 <b>Luis Figueroa</b>. Todos los derechos reservados. Desarrollado por Luis Figueroa | Pro Coder.</p>
+        <p>Los nombres de activos y marcas citados pertenecen a sus dueños; este proyecto no está afiliado a ellos.</p>
+        <p><b>Simulador con fines educativos.</b> No mueve dinero real ni es una entidad financiera. Los saldos y cotizaciones son ficticios.</p>
+    </div>
+
+    <script>
+        // Configuración de tasas y saldo inicial
+        const TASA_VES = 855.55;
+        const TASA_EUR = 0.86;
+        const SALDO_INICIAL = 500;
+
+        // Selector rápido de elementos del DOM
+        const $ = (id) => document.getElementById(id);
+        
+        // Formateador de números a formato monetario legible
+        const formatearMoneda = (numero) => numero.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        // Estado global de la aplicación
+        let appState = {
+            bal: SALDO_INICIAL,
+            tx: [],
+            vol: [0, 0, 0, 0, 0, 0]
+        };
+
+        // Cargar datos guardados si existen en el navegador
+        try {
+            const datosGuardados = JSON.parse(localStorage.getItem('lion'));
+            if (datosGuardados && typeof datosGuardados.bal === 'number') {
+                appState = datosGuardados;
+            }
+        } catch (error) {
+            console.error("Error al cargar localStorage:", error);
+        }
+
+        const guardarEstado = () => {
+            try {
+                localStorage.setItem('lion', JSON.stringify(appState));
+            } catch (error) {
+                console.error("Error al guardar en localStorage:", error);
+            }
+        };
+
+        // Generar dinámicamente las flechas de tendencia y balances visuales
+        function actualizarFlecha(direccion) {
+            const esSubida = (direccion === 'up');
+            const elementoArr = $('arr');
+            const textoBalance = '$' + formatearMoneda(appState.bal);
+            
+            elementoArr.className = 'arr ' + (esSubida ? 'up' : 'down');
+            
+            const plantillaFlecha = (x, y, w, h) => `<path d="M${x + 0.3 * w} ${y}H${x + 0.7 * w}V${y + 0.62 * h}H${x + w}L${x + 0.5 * w} ${y + h}L${x} ${y + 0.62 * h}H${x + 0.3 * w}Z" fill="url(#ag)"/>`;
+            
+            if (esSubida) {
+                elementoArr.innerHTML = `
+                    <svg viewBox="0 0 260 200">
+                        <defs><filter id="gw"><feGaussianBlur stdDeviation="3"/></filter></defs>
+                        <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="12,165 38,178 62,140 86,152 112,104 136,116 160,74 184,86 214,38" stroke="#3dffb0" stroke-opacity=".5" stroke-width="12" filter="url(#gw)"/>
+                            <polyline points="12,165 38,178 62,140 86,152 112,104 136,116 160,74 184,86 214,38" stroke="#7dffd0" stroke-width="7"/>
+                        </g>
+                        <path d="M196 30L232 10L228 52Z" fill="#8dff3f"/>
+                        <rect x="128" y="146" width="122" height="40" rx="6" fill="#06231c" stroke="#3dffb0" stroke-width="2"/>
+                        <text x="189" y="174" text-anchor="middle" font-size="21" font-weight="800" fill="#c8ffe6" font-family="system-ui">${textoBalance}</text>
+                    </svg>`;
+            } else {
+                elementoArr.innerHTML = `
+                    <svg viewBox="0 0 260 200">
+                        <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff6a3d"/><stop offset="1" stop-color="#b3130f"/></linearGradient></defs>
+                        ${plantillaFlecha(112, 4, 34, 72)}
+                        ${plantillaFlecha(160, 2, 48, 96)}
+                        ${plantillaFlecha(218, 14, 34, 78)}
+                        <polyline points="10,98 26,104 34,92 52,100 66,112 86,120 104,136 122,150" fill="none" stroke="#ff6a4d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="122" cy="150" r="7" fill="#ffe6dc"/>
+                        <rect x="132" y="138" width="120" height="42" rx="5" fill="#3a0a10" stroke="#ff8a7a" stroke-width="2"/>
+                        <text x="192" y="167" text-anchor="middle" font-size="21" font-weight="800" fill="#ffe6dc" font-family="system-ui">${textoBalance}</text>
+                    </svg>`;
+            }
+        }
+
+        // Renderizado general de la interfaz
+        function renderizarUI(direccion) {
+            if (direccion) appState.dir = direccion;
+            actualizarFlecha(appState.dir || "up");
+            
+            const elementoBalance = $('bal');
+            elementoBalance.textContent = '$' + formatearMoneda(appState.bal);
+            elementoBalance.className = 'n' + (direccion ? ' ' + direccion : '');
+            
+            if (direccion) {
+                setTimeout(() => elementoBalance.className = 'n', 900);
+            }
+            
+            const maxVolumen = Math.max(...appState.vol, 1);
+            const diasSemana = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            
+            $('bars').innerHTML = appState.vol.map((valor, indice) => `
+                <div class="${indice === 5 ? 'hoy' : ''}">
+                    <i style="height:${Math.max(4, (valor / maxVolumen) * 90)}px"></i>${diasSemana[indice]}
+                </div>
+            `).join('');
+            
+            $('tx').innerHTML = appState.tx.length ? appState.tx.map(transaccion => {
+                const esDeposito = (transaccion.tipo === 'Depósito');
+                return `
+                    <li>
+                        <span class="badge">Completada</span>
+                        <div class="row">
+                            <div>
+                                <b>${esDeposito ? 'Agregado con cajero' : 'Retiro con cajero'}</b>
+                                <small>PagoMóvil</small>
+                            </div>
+                            <div>
+                                <b>${esDeposito ? '+' : '-'}$${formatearMoneda(transaccion.m)} USDC</b>
+                                <small>Bs ${formatearMoneda(transaccion.m * TASA_VES)} VES<br>${transaccion.fecha || transaccion.hora}</small>
+                            </div>
+                        </div>
+                    </li>`;
+            }).join('') : '<div class="empty">No hay movimientos todavía. Ingresa un monto para empezar.</div>';
+            
+            guardarEstado();
+        }
+
+        function obtenerMontoInput() {
+            const valor = parseFloat($('amt').value);
+            return isFinite(valor) ? Math.round(valor * 100) / 100 : 0;
+        }
+
+        function mostrarMensaje(texto, esExito) {
+            const mensajeBox = $('msg');
+            mensajeBox.textContent = texto;
+            mensajeBox.style.color = esExito ? 'var(--gr)' : 'var(--rd)';
+        }
+
+        // Lógica de operaciones financieras
+        function ejecutarOperacion(tipoOperacion) {
+            const montoOperacion = obtenerMontoInput();
+            
+            if (montoOperacion <= 0) {
+                mostrarMensaje('Escribe un monto mayor a 0.', false);
+                $('amt').focus();
+                return;
+            }
+            
+            if (tipoOperacion === 'Retiro' && montoOperacion > appState.bal) {
+                mostrarMensaje('Saldo insuficiente. Tu balance es $' + formatearMoneda(appState.bal) + '.', false);
+                return;
+            }
+            
+            appState.bal = Math.round((appState.bal + (tipoOperacion === 'Depósito' ? montoOperacion : -montoOperacion)) * 100) / 100;
+            appState.vol[5] += montoOperacion;
+            
+            appState.tx.unshift({
+                tipo: tipoOperacion,
+                m: montoOperacion,
+                hora: new Date().toLocaleTimeString('es-VE'),
+                fecha: new Date().toLocaleDateString('es-VE', { month: 'short', day: '2-digit', year: 'numeric' })
+            });
+            
+            appState.tx = appState.tx.slice(0, 30);
+            
+            mostrarMensaje((tipoOperacion === 'Depósito' ? 'Depósito' : 'Retiro') + ' de $' + formatearMoneda(montoOperacion) + ' realizado.', true);$('amt').value = '';
+            actualizarConversiones();
+            renderizarUI(tipoOperacion === 'Depósito' ? 'up' : 'down');
+        }
+
+        function actualizarConversiones() {
+            const montoActual = obtenerMontoInput();
+            $('ves').textContent = 'Bs ' + formatearMoneda(montoActual * TASA_VES);$('eur').textContent = formatearMoneda(montoActual * TASA_EUR) + ' €';
+        }
+
+        // Event Listeners
+        $('amt').addEventListener('input', actualizarConversiones);$('amt').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') ejecutarOperacion('Depósito');
+        });
+        
+        $('bd').onclick = () => ejecutarOperacion('Depósito');
+        $('br').onclick = () => ejecutarOperacion('Retiro');$('bx').onclick = () => {
+            appState = { bal: SALDO_INICIAL, tx: [], vol: [0, 0, 0, 0, 0, 0] };
+            $('amt').value = '';
+            actualizarConversiones();
+            mostrarMensaje('Panel restablecido.', true);
+            renderizarUI();
+        };
+
+        // Gráfico de velas simulado
+        const canvasRef = $('ch');
+        const canvasCtx = canvasRef.getContext('2d');
+        let velasMercado = [];
+        let precioActual = 69000;
+
+        function generarVela() {
+            const open = precioActual;
+            const close = open + (Math.random() - 0.5) * 900;
+            const high = Math.max(open, close) + Math.random() * 400;
+            const low = Math.min(open, close) - Math.random() * 400;
+            precioActual = close;
+            return { open, close, high, low };
+        }
+
+        for (let i = 0; i < 18; i++) {
+            velasMercado.push(generarVela());
+        }
+
+        function dibujarGrafico() {
+            const width = canvasRef.width = canvasRef.clientWidth * devicePixelRatio;
+            const height = canvasRef.height = canvasRef.clientHeight * devicePixelRatio;
+            
+            const maxPrecio = Math.max(...velasMercado.map(v => v.high));
+            const minPrecio = Math.min(...velasMercado.map(v => v.low));
+            
+            const escalarY = (valor) => height - (valor - minPrecio) / (maxPrecio - minPrecio) * (height - 20) - 10;
+            const anchoColumna = width / velasMercado.length;
+            
+            canvasCtx.strokeStyle = '#262c55';
+            for (let i = 1; i < 4; i++) {
+                canvasCtx.beginPath();
+                canvasCtx.moveTo(0, height * i / 4);
+                canvasCtx.lineTo(width, height * i / 4);
+                canvasCtx.stroke();
+            }
+            
+            velasMercado.forEach((vela, index) => {
+                const xPos = index * anchoColumna + anchoColumna / 2;
+                const esVerde = vela.close >= vela.open;
+                
+                canvasCtx.strokeStyle = canvasCtx.fillStyle = esVerde ? '#2ecc8f' : '#ff5a5a';
+                canvasCtx.lineWidth = 2;
+                
+                // Mecha
+                canvasCtx.beginPath();
+                canvasCtx.moveTo(xPos, escalarY(vela.high));
+                canvasCtx.lineTo(xPos, escalarY(vela.low));
+                canvasCtx.stroke();
+                
+                // Cuerpo
+                canvasCtx.fillRect(
+                    xPos - anchoColumna * 0.28,
+                    Math.min(escalarY(vela.open), escalarY(vela.close)),
+                    anchoColumna * 0.56,
+                    Math.max(3, Math.abs(escalarY(vela.open) - escalarY(vela.close)))
+                );
+            });
+        }
+
+        setInterval(() => {
+            velasMercado.shift();
+            velasMercado.push(generarVela());
+            dibujarGrafico();
+        }, 2000);
+
+        window.addEventListener('resize', dibujarGrafico);
+
+        // Inicialización de patrones SVG adicionales
+        (function() {
+            let svgPath = '';
+            let svgNodes = '';
+            for (let i = 0; i < 16; i++) {
+                const anguloA = i * Math.PI / 8;
+                const anguloB = anguloA + 0.1396;
+                const punto = (radio, t) => (100 + radio * Math.cos(t)).toFixed(1) + ' ' + (100 + radio * Math.sin(t)).toFixed(1);
+                svgPath += 'M' + punto(50, anguloA) + 'L' + punto(60, anguloA) + 'L' + punto(60, anguloB) + 'L' + punto(71, anguloB);
+                svgNodes += '<circle cx="' + (100 + 71 * Math.cos(anguloB)).toFixed(1) + '" cy="' + (100 + 71 * Math.sin(anguloB)).toFixed(1) + '" r="2.2" fill="#fff" stroke="none"/>';
+            }
+            $('ckt').insertAdjacentHTML('beforeend', '<path d="' + svgPath + '"/>' + svgNodes);
+        })();
+
+        // Carga inicial
+        dibujarGrafico();
+        renderizarUI();
+        actualizarConversiones();
+    </script>
+</body>
+</html>
